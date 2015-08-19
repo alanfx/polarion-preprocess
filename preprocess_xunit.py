@@ -152,7 +152,7 @@ def parse_testsuite_line( file_path, line ):
    
    @param line:  The line from the file containing the <testsuite XML tag
    '''
-#    print("line = %s" % (line))
+   #print("line = %s" % (line))
    line_list = line.strip().replace( "<testsuite ", "" ).replace( ">", "" ).replace( "\"", "" ).split()
    for each in line_list:
       # These values are not used by the Polarion test run, so skip them
@@ -160,8 +160,8 @@ def parse_testsuite_line( file_path, line ):
          continue
       else:
          new_list = each.split( '=' )
-         # print( "new_list = %s" % ( new_list ) )
-         suite_total[new_list[0]] += ast.literal_eval( new_list[1] )
+         #print( "new_list = %s" % ( new_list ) )
+         suite_total[new_list[0]] += ast.literal_eval( new_list[1].replace(",","") )
    # print( "suite_total = %s" % ( suite_total ) )
 
 if __name__ == '__main__':
