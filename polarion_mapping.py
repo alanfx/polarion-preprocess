@@ -60,6 +60,7 @@ class PolarionMapping(collections.MutableMapping):
             return None
          elif len(tests) == 1:
             self.shelf[str(key)] = str(tests[0].work_item_id)
+            self.shelf.sync()
             return self.shelf.__getitem__(key)
          else:
             err_str = "Found multiple test cases with testCaseID '%s' in Polarion\n" % key
@@ -72,6 +73,7 @@ class PolarionMapping(collections.MutableMapping):
 
    def __setitem__(self, key, val):
       self.shelf[str(key)] = str(val)
+      self.shelf.sync()
       
    def __delitem__(self, key):
       self.shelf.pop(key, None)
@@ -103,4 +105,5 @@ class PolarionMapping(collections.MutableMapping):
          elif test.title is not None and not self.shelf.has_key(str(test.title)):
             print "Adding '%s' with ID '%s'" % (test.title, test.work_item_id)
             self.shelf[str(test.title)] = str(test.work_item_id)
+      self.shelf.sync()
             
