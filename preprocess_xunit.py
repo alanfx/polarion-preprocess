@@ -60,7 +60,8 @@ def main():
 
          # Read files and replace classname with project_name+_+classname
          property_strings = ['<properties>', '</properties>', '<property ']
-         all_strings = property_strings + [  '<?xml ']
+         # Remove '</testsuite>' from the list to use nested testsuites
+         all_strings = property_strings + [  '<?xml ', '</testsuite>']
          with open( xunit_path, 'r' ) as source_file:
             for line in source_file:
                # Only write Java properties once
@@ -68,6 +69,7 @@ def main():
                   properties.append( line )
                elif line.find( '<testcase ' ) != -1:
                   target_file.write( line.replace( 'classname="', 'classname="%s_' % ( project_name ) ) )
+                  print(line)
                elif line.find( '<testsuite ' ) != -1:
                   parse_testsuite_line( xunit_path, line )
                   # Remove timestamps, because of POLARION-648
